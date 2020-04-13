@@ -12,6 +12,8 @@
 #     "totalHospitalBeds": 1380614
 # }
 
+from math import floor
+
 
 def estimator(data):
     reportedCases = data["reportedCases"]
@@ -29,10 +31,7 @@ def estimator(data):
         else:
             return timeToElapse * 30
 
-    def getFactor(timeToElapse, periodType):
-        return timeInDays(timeToElapse, periodType)/3
-
-    factor = round(getFactor(timeToElapse, periodType))
+    factor = floor(timeInDays(timeToElapse, periodType)/3)
 
     currentlyInfectedN = reportedCases * 10
     currentlyInfectedS = reportedCases * 50
@@ -40,27 +39,26 @@ def estimator(data):
     infectionsByRequestedTimeN = currentlyInfectedN * (2 ** factor)
     infectionsByRequestedTimeS = currentlyInfectedS * (2 ** factor)
 
-    severeCasesByRequestedTimeN = round(infectionsByRequestedTimeN * 0.15)
-    severeCasesByRequestedTimeS = round(infectionsByRequestedTimeS * 0.15)
+    severeCasesByRequestedTimeN = floor(infectionsByRequestedTimeN * 0.15)
+    severeCasesByRequestedTimeS = floor(infectionsByRequestedTimeS * 0.15)
 
-    hospitalBedsByRequestedTimeN = totalHospitalBeds - round(
-        totalHospitalBeds * 0.35
-    ) - severeCasesByRequestedTimeN
-    hospitalBedsByRequestedTimeS = totalHospitalBeds - round(
-        totalHospitalBeds * 0.35
-    ) - severeCasesByRequestedTimeS
-    casesForICUByRequestedTimeN = round(0.05 * infectionsByRequestedTimeN)
-    casesForICUByRequestedTimeS = round(0.05 * infectionsByRequestedTimeS)
+    hospitalBedsByRequestedTimeN = totalHospitalBeds - \
+        floor(totalHospitalBeds * 0.35) - severeCasesByRequestedTimeN
+    hospitalBedsByRequestedTimeS = totalHospitalBeds - \
+        floor(totalHospitalBeds * 0.35) - severeCasesByRequestedTimeS
 
-    casesForVentilatorsByRequestedTimeN = round(
+    casesForICUByRequestedTimeN = floor(0.05 * infectionsByRequestedTimeN)
+    casesForICUByRequestedTimeS = floor(0.05 * infectionsByRequestedTimeS)
+
+    casesForVentilatorsByRequestedTimeN = floor(
         0.02 * infectionsByRequestedTimeN)
-    casesForVentilatorsByRequestedTimeS = round(
+    casesForVentilatorsByRequestedTimeS = floor(
         0.02 * infectionsByRequestedTimeS)
 
-    dollarsInFlightN = round(
+    dollarsInFlightN = floor(
         infectionsByRequestedTimeN * avgDailyIncomeInUSD * avgDailyIncomePopulation
     )
-    dollarsInFlightS = round(
+    dollarsInFlightS = floor(
         infectionsByRequestedTimeS * avgDailyIncomeInUSD * avgDailyIncomePopulation
     )
 
@@ -89,3 +87,6 @@ def estimator(data):
         "impact": impact,
         "severeImpact": severeImpact
     }
+
+# if __name__ == "__main__":
+#     unittest.main()
