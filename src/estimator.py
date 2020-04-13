@@ -1,16 +1,16 @@
-data = {
-    "region": {
-        "name": "Africa",
-        "avgAge": 19.7,
-        "avgDailyIncomeInUSD": 5,
-        "avgDailyIncomePopulation": 0.71
-    },
-    "periodType": "days",
-    "timeToElapse": 58,
-    "reportedCases": 674,
-    "population": 66622705,
-    "totalHospitalBeds": 1380614
-}
+# data = {
+#     "region": {
+#         "name": "Africa",
+#         "avgAge": 19.7,
+#         "avgDailyIncomeInUSD": 5,
+#         "avgDailyIncomePopulation": 0.71
+#     },
+#     "periodType": "days",
+#     "timeToElapse": 58,
+#     "reportedCases": 674,
+#     "population": 66622705,
+#     "totalHospitalBeds": 1380614
+# }
 
 
 def estimator(data):
@@ -43,12 +43,12 @@ def estimator(data):
     severeCasesByRequestedTimeN = round(infectionsByRequestedTimeN * 0.15)
     severeCasesByRequestedTimeS = round(infectionsByRequestedTimeS * 0.15)
 
-    hospitalBedsByRequestedTimeN = round(
-        totalHospitalBeds * 0.35 * severeCasesByRequestedTimeN
-    )
-    hospitalBedsByRequestedTimeS = round(
-        totalHospitalBeds * 0.35 * severeCasesByRequestedTimeS
-    )
+    hospitalBedsByRequestedTimeN = totalHospitalBeds - round(
+        totalHospitalBeds * 0.35
+    ) - severeCasesByRequestedTimeN
+    hospitalBedsByRequestedTimeS = totalHospitalBeds - round(
+        totalHospitalBeds * 0.35
+    ) - severeCasesByRequestedTimeS
     casesForICUByRequestedTimeN = round(0.05 * infectionsByRequestedTimeN)
     casesForICUByRequestedTimeS = round(0.05 * infectionsByRequestedTimeS)
 
