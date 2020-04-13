@@ -71,7 +71,7 @@ def estimator(data):
         "hospitalBedsByRequestedTime": hospitalBedsByRequestedTimeN,
         "casesForICUByRequestedTime": casesForICUByRequestedTimeN,
         "casesForVentilatorsByRequestedTime": casesForVentilatorsByRequestedTimeN,
-        "dollarsInFlight": f"$ {dollarsInFlightN}"
+        "dollarsInFlight": f"${dollarsInFlightN}"
     }
 
     severeImpact = {
@@ -81,7 +81,7 @@ def estimator(data):
         "hospitalBedsByRequestedTime": hospitalBedsByRequestedTimeS,
         "casesForICUByRequestedTime": casesForICUByRequestedTimeS,
         "casesForVentilatorsByRequestedTime": casesForVentilatorsByRequestedTimeS,
-        "dollarsInFlight": f"$ {dollarsInFlightS}"
+        "dollarsInFlight": f"${dollarsInFlightS}"
     }
 
     return {
@@ -89,6 +89,3 @@ def estimator(data):
         "impact": impact,
         "severeImpact": severeImpact
     }
-
-
-print(estimator(data))
